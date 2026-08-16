@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deutsche Anki</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@latest/css/pico.min.css">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#394b59">
+</head>
+<body>
+    <main class="container">
+        <h1>Deutsche Anki</h1>
+        <p>German flashcard web app with spaced repetition</p>
+        <div id="decks">
+            <p>Loading decks...</p>
+        </div>
+    </main>
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('/api/decks')
+                .then(response => response.json())
+                .then(decks => {
+                    const container = document.getElementById('decks');
+                    if (decks.length === 0) {
+                        container.innerHTML = '<p>No decks yet. Create your first deck!</p>';
+                    } else {
+                        container.innerHTML = decks.map(deck => `
+                            <article>
+                                <header>${deck.name}</header>
+                                <p>Due: ${deck.due_count} | Total: ${deck.total_count}</p>
+                                <footer><a href="/study/${deck.id}" role="button">Study</a></footer>
+                            </article>
+                        `).join('');
+                    }
+                });
+        });
+    </script>
+</body>
+</html>

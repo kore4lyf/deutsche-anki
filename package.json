@@ -1,0 +1,17 @@
+{
+  "name": "deutsche-anki",
+  "version": "1.0.0",
+  "private": true,
+  "description": "German flashcard web app with spaced repetition",
+  "scripts": {
+    "dev": "wrangler pages dev frontend --compatibility-date=2026-08-16 --d1 DB=deutsche-anki-local",
+    "deploy": "wrangler pages deploy frontend",
+    "migrate": "wrangler d1 execute deutsche-anki-local --remote --file=./schema.sql"
+  },
+  "dependencies": {
+    "hono": "^4.0.0"
+  },
+  "devDependencies": {
+    "wrangler": "^3.0.0"
+  }
+}
